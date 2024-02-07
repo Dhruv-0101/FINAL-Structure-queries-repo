@@ -10,8 +10,6 @@ const {
   findUserByEmail,
   isPassMatched,
 } = require("../../User/userRepo/userRepo.js");
-//import message from "./message"; // Replace with the actual path to your message file
-
 const signup = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -44,12 +42,12 @@ const signin = asyncHandler(async (req, res) => {
   if (userFound && (await isPassMatched(password, userFound?.password))) {
     res.json({
       status: "success",
-      message: "User logged in successfully",
+      message: message.usersigninSuccessfully,
       token: generateToken(userFound?._id),
       userFound,
     });
   } else {
-    throw new Error("Invalid login credentials");
+    throw new Error(message.invalidCredentails);
   }
 });
 
