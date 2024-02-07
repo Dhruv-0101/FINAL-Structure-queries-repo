@@ -5,7 +5,7 @@ const {
   createUser,
 } = require("../../User/userRepo/userRepo.js");
 const message = require("../../../services/Utils/message");
-const generateToken = require("../../../services/Utils/generateToken");
+const { generateToken } = require("../../User/userRepo/userRepo.js");
 const {
   findUserByEmail,
   isPassMatched,

@@ -1,6 +1,7 @@
 // userQueries.js
 const User = require("../models/userModel");
 const becrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const checkUserExists = async (email) => {
   return User.findOne({ email });
@@ -26,6 +27,9 @@ const isPassMatched = async (password, hash) => {
 const findUserByEmail = async (email) => {
   return User.findOne({ email });
 };
+const generateToken = (id) => {
+  return jwt.sign({ id }, "anykey", { expiresIn: "5d" });
+};
 
 module.exports = {
   checkUserExists,
@@ -33,4 +37,5 @@ module.exports = {
   hashPassword,
   findUserByEmail,
   isPassMatched,
+  generateToken,
 };
