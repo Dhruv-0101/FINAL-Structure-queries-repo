@@ -33,7 +33,7 @@ const signup = asyncHandler(async (req, res) => {
   });
 });
 
-const signin = asyncHandler(async (req, res) => {
+/*const signin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   // Find the user in the database by email only
@@ -44,6 +44,30 @@ const signin = asyncHandler(async (req, res) => {
       status: "success",
       message: message.usersigninSuccessfully,
       token: generateToken(userFound?._id),
+      userFound,
+    });
+  } else {
+    throw new Error(message.invalidCredentails);
+  }
+});*/
+const signin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  // Find the user in the database by email only
+  const userFound = await findUserByEmail(email);
+
+  if (userFound && (await isPassMatched(password, userFound?.password))) {
+    // Generate token
+    const token = generateToken(userFound?._id);
+
+    // Save the token to the user document in the database
+    userFound.token = token;
+    await userFound.save();
+
+    res.json({
+      status: "success",
+      message: message.usersigninSuccessfully,
+      token,
       userFound,
     });
   } else {

@@ -30,6 +30,9 @@ const findUserByEmail = async (email) => {
 const generateToken = (id) => {
   return jwt.sign({ id }, "anykey", { expiresIn: "5d" });
 };
+const getUserProfile = async (userId) => {
+  return User.findById(userId);
+};
 
 module.exports = {
   checkUserExists,
@@ -38,4 +41,5 @@ module.exports = {
   findUserByEmail,
   isPassMatched,
   generateToken,
+  getUserProfile,
 };
