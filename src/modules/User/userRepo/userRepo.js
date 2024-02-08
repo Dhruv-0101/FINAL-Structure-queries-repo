@@ -7,11 +7,19 @@ const checkUserExists = async (email) => {
   return User.findOne({ email });
 };
 
-const createUser = async (name, email, hashedPassword) => {
+const createUser = async (
+  name,
+  email,
+  hashedPassword,
+  contactMobileNo,
+  panNo
+) => {
   return User.create({
     name,
     email,
     password: hashedPassword,
+    contactMobileNo,
+    panNo
   });
 };
 

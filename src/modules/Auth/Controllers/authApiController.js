@@ -11,7 +11,7 @@ const {
   isPassMatched,
 } = require("../../User/userRepo/userRepo.js");
 const signup = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, contactMobileNo ,panNo } = req.body;
 
   // Check if user exists
   const userExists = await checkUserExists(email);
@@ -24,7 +24,13 @@ const signup = asyncHandler(async (req, res) => {
   const hashedPassword = await hashPassword(password);
 
   // Create the user
-  const user = await createUser(name, email, hashedPassword);
+  const user = await createUser(
+    name,
+    email,
+    hashedPassword,
+    contactMobileNo,
+    panNo
+  );
 
   res.status(201).json({
     status: "success",
