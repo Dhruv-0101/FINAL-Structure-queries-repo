@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
+const {
+  handleValidationErrors,
+} = require("../services/Utils/handleValidationErrors");
 
 const storeSchema = new mongoose.Schema(
   {
@@ -116,6 +119,10 @@ storeSchema.virtual("updatedAtIST").get(function () {
   return moment(this.updatedAt)
     .tz("Asia/Kolkata")
     .format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+});
+
+storeSchema.post("save", function (error, doc, next) {
+  handleValidationErrors(error, next);
 });
 
 const Store = mongoose.model("Store", storeSchema);
