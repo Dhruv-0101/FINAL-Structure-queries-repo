@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema(
           // Use a regular expression for mobile number validation
           return /^[0-9]{10,13}$/.test(value);
         },
-         message: message.mobilenumberisnovalidated,
+        message: message.mobilenumberisnovalidated,
       },
     },
     panNo: {
@@ -47,6 +47,18 @@ const UserSchema = new mongoose.Schema(
         },
         message: "PAN number is not validddd",
       },
+    },
+    contactEmail: {
+      type: String,
+      maxlength: 161,
+      validate: {
+        validator: function (value) {
+          // Use a regular expression for email validation
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        },
+        message: "Email is not valid",
+      },
+      required: true,
     },
   },
   {

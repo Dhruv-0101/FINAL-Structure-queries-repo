@@ -11,7 +11,8 @@ const {
   isPassMatched,
 } = require("../../User/userRepo/userRepo.js");
 const signup = asyncHandler(async (req, res) => {
-  const { name, email, password, contactMobileNo ,panNo } = req.body;
+  const { name, email, password, contactMobileNo, panNo, contactEmail } =
+    req.body;
 
   // Check if user exists
   const userExists = await checkUserExists(email);
@@ -29,7 +30,8 @@ const signup = asyncHandler(async (req, res) => {
     email,
     hashedPassword,
     contactMobileNo,
-    panNo
+    panNo,
+    contactEmail
   );
 
   res.status(201).json({

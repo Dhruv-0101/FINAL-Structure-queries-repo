@@ -31,6 +31,7 @@ const ProjectTermCategorySchema = new mongoose.Schema(
       type: Number,
     },
   },
+
   {
     timestamps: true,
     toObject: { virtuals: true },

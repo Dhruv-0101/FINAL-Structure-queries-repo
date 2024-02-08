@@ -26,10 +26,6 @@ const userRoleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    /*createdOn: {
-      type: Date,
-      default: Date.now,
-    },*/
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

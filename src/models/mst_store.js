@@ -18,10 +18,22 @@ const storeSchema = new mongoose.Schema(
     storeContactNo: {
       type: String,
       maxlength: 13,
+      validate: {
+        validator: function (value) {
+          return /^[0-9]{10,13}$/.test(value);
+        },
+        message: "Mobile number is not valid",
+      },
     },
     storeContactEmail: {
       type: String,
       maxlength: 161,
+      validate: {
+        validator: function (value) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        },
+        message: "Email is not valid",
+      },
     },
     storePicture: {
       type: String,

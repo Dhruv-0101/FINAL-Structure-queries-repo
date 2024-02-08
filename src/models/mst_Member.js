@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
-
+const {
+  handleValidationErrors,
+} = require("../services/Utils/handleValidationErrors");
 const memberSchema = new mongoose.Schema({
   memberId: {
     type: Number,
@@ -29,14 +31,32 @@ const memberSchema = new mongoose.Schema({
   mobileNo: {
     type: String,
     maxlength: 13,
+    validate: {
+      validator: function (value) {
+        return /^[0-9]{10,13}$/.test(value);
+      },
+      message: "Mobile number is not valid",
+    },
   },
   email: {
     type: String,
     maxlength: 161,
+    validate: {
+      validator: function (value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      },
+      message: "Email is not valid",
+    },
   },
   whatsappNo: {
     type: String,
     maxlength: 13,
+    validate: {
+      validator: function (value) {
+        return /^[0-9]{10,13}$/.test(value);
+      },
+      message: "Mobile number is not valid",
+    },
   },
   createdOn: {
     type: Date,
@@ -88,12 +108,24 @@ const memberSchema = new mongoose.Schema({
   },
   dateOfBirth: {
     type: Date,
+    validate: {
+      validator: function (value) {
+        return value instanceof Date && !isNaN(value) && value < new Date();
+      },
+      message: "Invalid or future date of birth",
+    },
   },
   age: {
     type: Number,
   },
   anniversaryDate: {
     type: Date,
+    validate: {
+      validator: function (value) {
+        return value instanceof Date && !isNaN(value) && value < new Date();
+      },
+      message: "Invalid or future date of birth",
+    },
   },
   fullPhotos: {
     type: String,
@@ -143,6 +175,10 @@ memberSchema.virtual("updatedAtIST").get(function () {
   return moment(this.updatedAt)
     .tz("Asia/Kolkata")
     .format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+});
+
+memberSchema.post("save", function (error, doc, next) {
+  handleValidationErrors(error, next);
 });
 
 const Member = mongoose.model("Member", memberSchema);

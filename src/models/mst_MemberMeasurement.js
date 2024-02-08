@@ -7,8 +7,8 @@ const measurementSchema = new mongoose.Schema({
     required: true,
   },
   memberId: {
-    type: Number,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Member",
   },
   attributeType_Term: {
     type: String,
@@ -25,10 +25,6 @@ const measurementSchema = new mongoose.Schema({
   unitOfMeasure: {
     type: String,
     maxlength: 37,
-  },
-  lastUpdatedOn: {
-    type: Date,
-    default: Date.now,
   },
   updatedBy: {
     type: mongoose.Schema.Types.ObjectId,

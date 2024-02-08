@@ -57,6 +57,7 @@ const jobStageSchema = new mongoose.Schema({
   },
 });
 
+
 stagesAttributeSchema.virtual("createdAtIST").get(function () {
   return moment(this.createdAt)
     .tz("Asia/Kolkata")

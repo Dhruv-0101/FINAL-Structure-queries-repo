@@ -94,6 +94,7 @@ const jobSchema = new mongoose.Schema({
     maxlength: 361,
   },
 });
+
 jobSchema.virtual("createdAtIST").get(function () {
   return moment(this.createdAt)
     .tz("Asia/Kolkata")

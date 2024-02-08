@@ -5,15 +5,11 @@ function handleValidationErrors(error, next) {
     const customErrors = [];
     Object.keys(error.errors).forEach((field) => {
       switch (field) {
-       /* case "contactMobileNo":
+        /* case "contactMobileNo":
          // customErrors.push("Mobile number is not valid");
           customErrors.push(message.mobilenumberisnovalidated);
           break;*/
-          
-        // Add additional cases for other fields with custom validators
-        // case "otherField":
-        //   customErrors.push("Custom error message for otherField");
-        //   break;
+
         default:
           customErrors.push(error.errors[field].message);
           break;

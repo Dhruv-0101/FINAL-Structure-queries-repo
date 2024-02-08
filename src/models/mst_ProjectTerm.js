@@ -8,8 +8,8 @@ const ProjectTermSchema = new mongoose.Schema(
       required: true,
     },
     termCategoryId: {
-      type: number,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "TermCategory",
     },
     termCode: {
       type: String,

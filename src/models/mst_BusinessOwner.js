@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
+const {
+  handleValidationErrors,
+} = require("../services/Utils/handleValidationErrors");
 
 const businessOwnerSchema = new mongoose.Schema(
   {
@@ -30,8 +33,6 @@ const businessOwnerSchema = new mongoose.Schema(
       maxlength: 31,
       validate: {
         validator: function (value) {
-          // Add your custom PAN number validation logic here
-          // For example, check if it matches a specific pattern
           return /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(value);
         },
         message: "PAN number is not valid",
@@ -40,6 +41,14 @@ const businessOwnerSchema = new mongoose.Schema(
     gstNo: {
       type: String,
       maxlength: 31,
+      validate: {
+        validator: function (value) {
+          return /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[0-9A-Z]{1}$/.test(
+            value
+          );
+        },
+        message: "GST number is not valid",
+      },
     },
 
     companyLogo: {
@@ -53,11 +62,22 @@ const businessOwnerSchema = new mongoose.Schema(
     contactMobileNo: {
       type: String,
       maxlength: 13,
+      validate: {
+        validator: function (value) {
+          return /^[0-9]{10,13}$/.test(value);
+        },
+        message: "Mobile number is not valid",
+      },
     },
-
     contactEmail: {
       type: String,
       maxlength: 161,
+      validate: {
+        validator: function (value) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        },
+        message: "Email is not valid",
+      },
     },
     websiteUrl: {
       type: String,
@@ -66,35 +86,58 @@ const businessOwnerSchema = new mongoose.Schema(
     facebookProfilePage: {
       type: String,
       maxlength: 161,
+      validate: {
+        validator: function (value) {
+          return /^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9_.-]+\/?$/.test(
+            value
+          );
+        },
+        message: "Facebook profile page URL is not valid",
+      },
     },
     instagramProfilePage: {
       type: String,
       maxlength: 161,
+      validate: {
+        validator: function (value) {
+          return /^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.-]+\/?$/.test(
+            value
+          );
+        },
+        message: "Instagram profile page URL is not valid",
+      },
     },
     pinterestPage: {
       type: String,
       maxlength: 161,
+      validate: {
+        validator: function (value) {
+          return /^(https?:\/\/)?(www\.)?pinterest\.com\/[a-zA-Z0-9_.-]+\/?$/.test(
+            value
+          );
+        },
+        message: "Pinterest page URL is not valid",
+      },
     },
+
     whatsappNo: {
       type: String,
       maxlength: 13,
+      validate: {
+        validator: function (value) {
+          return /^[0-9]{10,13}$/.test(value);
+        },
+        message: message.mobilenumberisnovalidated,
+      },
     },
     statusTerm: {
       type: String,
       maxlength: 71,
     },
-    /*createdAt: {
-    type: Date,
-    default: Date.now,
-  },*/
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    /*updatedAt: {
-    type: Date,
-    default: Date.now,
-  },*/
     updatedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -174,6 +217,10 @@ businessOwnerSchema.virtual("updatedAtIST").get(function () {
   return moment(this.updatedAt)
     .tz("Asia/Kolkata")
     .format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+});
+
+businessOwnerSchema.post("save", function (error, doc, next) {
+  handleValidationErrors(error, next);
 });
 
 const BusinessOwner = mongoose.model("BusinessOwner", businessOwnerSchema);

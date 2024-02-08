@@ -12,14 +12,16 @@ const createUser = async (
   email,
   hashedPassword,
   contactMobileNo,
-  panNo
+  panNo,
+  contactEmail
 ) => {
   return User.create({
     name,
     email,
     password: hashedPassword,
     contactMobileNo,
-    panNo
+    panNo,
+    contactEmail,
   });
 };
 

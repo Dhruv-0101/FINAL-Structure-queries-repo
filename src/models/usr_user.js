@@ -43,10 +43,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       maxlength: 37,
     },
-    /*createdOn: {
-      type: Date,
-      default: Date.now,
-    },*/
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin",
